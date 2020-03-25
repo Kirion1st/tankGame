@@ -15,8 +15,9 @@ import javax.swing.RepaintManager;
 import javax.swing.Timer;
 
 /**
+ * The game itself
  * 
- * @author kirion
+ * @author Kirion1st
  *
  */
 public class GamePanel extends JPanel {

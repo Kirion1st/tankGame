@@ -14,7 +14,7 @@ import javax.swing.JMenuItem;
 /**
  * Main class for the Game Window
  * 
- * @author Kirion
+ * @author Kirion1st
  *
  */
 public class GameWindow extends JFrame{
@@ -39,7 +39,7 @@ public class GameWindow extends JFrame{
     }
     
     /**
-     * Window Listener wird erstellt
+     * Window Listener is registered
      */
     private void registerWindowListener() {
     	
