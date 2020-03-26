@@ -15,7 +15,6 @@ public abstract class GameObject {
 	private double movingDistance;
 	
 	public GameObject(Coordinate objectPosition, double width, double height) {
-		
 		this.objectPosition = objectPosition;
 		this.height = height;
 		this.width = width;
@@ -24,67 +23,54 @@ public abstract class GameObject {
 	}
 	
 	public Coordinate getObjectPosition() {
-		
 		return objectPosition;
 	}
 	
 	public void setObjectPosition(Coordinate objectPosition) {
-		
 		this.objectPosition = objectPosition;
 	}
 	
 	public double getWidth() {
-		
 		return width;
 	}
 	
 	public void setWidth(double width) {
-		
 		this.width = width;
 	}
 	
 	public double getHeight() {
-		
 		return height;
 	}
 	
 	public void setHeight(double height) {
-		
 		this.height = height;
 	}
 	
 	public double getMovingDistance() {
-		
 		return movingDistance;
 	}
 	
 	public void setMovingDistance(double movingDistance) {
-		
 		this.movingDistance = movingDistance;
 	}
 	
 	public double getMovingAngle() {
-		
 		return movingAngle;
 	}
 	
 	public void setMovingAngle(double movingAngle) {
-		
 		this.movingAngle = movingAngle;
 	}
 	
 	public boolean isLeftOf(GameObject that) {
-		
 		return this.getObjectPosition().getX() + this.getWidth() < that.getObjectPosition().getX();
 	}
 	
 	public boolean isAbove(GameObject that) {
-		
 		return this.getObjectPosition().getY() + this.getHeight() < that.getObjectPosition().getY();
 	}
 	
 	public boolean touches(GameObject that) {
-		
 		if(this.isLeftOf(that)) return false;
 		if(that.isLeftOf(this)) return false;
 		if(this.isAbove(that)) return false;
@@ -103,7 +89,6 @@ public abstract class GameObject {
 	}
 	
 	public void moveGameObject() {
-		
 		Coordinate direction = polarToCartesianCoordinates(movingAngle);
 		
 		objectPosition.setX(objectPosition.getX() + direction.getX() * movingDistance);
@@ -111,7 +96,6 @@ public abstract class GameObject {
 	}
 	
 	public void makeMove() {
-		
 		moveGameObject();
 	}
 	

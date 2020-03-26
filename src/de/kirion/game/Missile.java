@@ -7,6 +7,12 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.RoundRectangle2D;
 
+/**
+ * GameObject: Missiles shot by the tank
+ * 
+ * @author Kirion1st
+ *
+ */
 public class Missile extends GameObject {
 
 	private int range = 100;
@@ -19,18 +25,15 @@ public class Missile extends GameObject {
 	}
 
 	public int getRange() {
-		
 		return range;
 	}
 	
 	public void setRange(int range) {
-		
 		this.range = range;
 	}
 	
 	@Override
 	public void makeMove() {
-		
 		if (range > 0) super.makeMove();
 		range--;
 	}
