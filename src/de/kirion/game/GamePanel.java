@@ -22,6 +22,9 @@ import javax.swing.Timer;
  */
 public class GamePanel extends JPanel {
 	
+	private Missile testMissileOne;
+	private Missile testMissileTwo;
+	
 	public static final String IMAGE_DIR = "images/";
 	
 	private final Dimension prefSize = new Dimension(640, 460);
@@ -76,7 +79,8 @@ public class GamePanel extends JPanel {
 	
 	private void createGameObjects() {
 		
-//		Hier werden spaeter die Spielobjekte erzeugt werden
+		testMissileOne = new Missile(new Coordinate(200, 100), 9, Math.toRadians(45), 5);
+		testMissileTwo = new Missile(new Coordinate(200, 609), 9, Math.toRadians(-45), 5);
 	}
 	
 	private void initPlayersTank() {
@@ -133,6 +137,10 @@ public class GamePanel extends JPanel {
 		tanksDestroyedCounter++;
 		if (tanksDestroyedCounter > 2015) endGame();
 		
+		testMissileOne.makeMove();
+		testMissileTwo.makeMove();
+		if (testMissileOne.touches(testMissileTwo)) endGame();
+		
 		repaint();
 	}
 	
@@ -156,6 +164,8 @@ public class GamePanel extends JPanel {
 			g.setColor(Color.RED);
 			g.drawString("GAME OVER!", prefSize.width / 2 -130, prefSize.height / 5);
 		}
+		
+		testMissileOne.paintMe(g);
+		testMissileTwo.paintMe(g);
 	}
-	
 }
