@@ -25,9 +25,11 @@ public class GamePanel extends JPanel {
 	private Missile testMissileOne;
 	private Missile testMissileTwo;
 	
+	private Tank testTank;
+	
 	public static final String IMAGE_DIR = "images/";
 	
-	private final Dimension prefSize = new Dimension(640, 460);
+	private final Dimension prefSize = new Dimension(1180, 780);
 	
 	private ImageIcon backgroundImage;
 	private final String[] backgroundImages = new String[] {"bg_mud.jpg", "bg_snow.jpg", "bg_sand.jpg"};
@@ -41,7 +43,6 @@ public class GamePanel extends JPanel {
 	 * Constructor
 	 */
 	public GamePanel() {
-		
 		setFocusable(true);
 		setPreferredSize(prefSize);
 		
@@ -50,12 +51,10 @@ public class GamePanel extends JPanel {
 	}
 	
 	public boolean isGameOver() {
-		
 		return gameOver;
 	}
 	
 	public void setGameOver(boolean gameOver) {
-		
 		this.gameOver = gameOver;
 	}
 	
@@ -63,9 +62,10 @@ public class GamePanel extends JPanel {
 	 * Initialize the game
 	 */
 	private void initGame() {
-		
 		setBackgroundImage(1);
 		createGameObjects();
+		
+		initPlayersTank();
 		
 		t = new Timer(20, new ActionListener() {
 			
@@ -78,45 +78,42 @@ public class GamePanel extends JPanel {
 	}
 	
 	private void createGameObjects() {
-		
 		testMissileOne = new Missile(new Coordinate(200, 100), 9, Math.toRadians(45), 5);
 		testMissileTwo = new Missile(new Coordinate(200, 609), 9, Math.toRadians(-45), 5);
 	}
 	
 	private void initPlayersTank() {
-		
-//		hier wird der Panzer des Spielers initialisiert werden 
+		testTank = new Tank(new Coordinate(360, 260), 70, 45, Math.toRadians(270), 0);
+		testTank.accelerateTank();
+		testTank.turnTankLeft();
+		testTank.turnCannonRight();
+		testMissileOne = testTank.shoot();
 	}
 	
 	/**
-	 * Creates the imagepath
+	 * sets an Image as Background
 	 * 
 	 * @param imageNumber Number of image
 	 */
 	public void setBackgroundImage(int imageNumber) {
-		
 		String imagePath = IMAGE_DIR + backgroundImages[imageNumber];
 		URL imageURL = getClass().getResource(imagePath);
 		backgroundImage = new ImageIcon(imageURL);
 	}
 	
 	private void startGame() {
-		
 		t.start();
 	}
 	
 	public void pauseGame() {
-		
 		t.stop();
 	}
 	
 	public void continueGame() {
-		
 		if (!isGameOver()) t.start();
 	}
 	
 	public void restartGame() {
-		
 		tanksDestroyedCounter = 0;
 		setGameOver(false);
 		createGameObjects();
@@ -124,29 +121,29 @@ public class GamePanel extends JPanel {
 	}
 	
 	private void endGame() {
-		
 		setGameOver(true);
 		pauseGame();
 	}
 	
 	/**
-	 * 
+	 * method is running every tick
 	 */
 	private void doOnTick() {
-		
 		tanksDestroyedCounter++;
 		if (tanksDestroyedCounter > 2015) endGame();
 		
 		testMissileOne.makeMove();
 		testMissileTwo.makeMove();
-		if (testMissileOne.touches(testMissileTwo)) endGame();
+		
+		testTank.makeMove();
+		if (testTank.touches(testMissileTwo)) endGame();
+		if (testTank.isAbleToShoot()) testMissileOne = testTank.shoot();
 		
 		repaint();
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		
 		super.paintComponent(g);
 		
 		Graphics2D g2d = (Graphics2D) g;
@@ -164,6 +161,8 @@ public class GamePanel extends JPanel {
 			g.setColor(Color.RED);
 			g.drawString("GAME OVER!", prefSize.width / 2 -130, prefSize.height / 5);
 		}
+		
+		testTank.paintMe(g);
 		
 		testMissileOne.paintMe(g);
 		testMissileTwo.paintMe(g);
