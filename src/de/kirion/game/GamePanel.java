@@ -8,10 +8,13 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import static java.awt.event.KeyEvent.*;
 import java.net.URL;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import javax.swing.RepaintManager;
 import javax.swing.Timer;
 
 /**
@@ -75,6 +78,63 @@ public class GamePanel extends JPanel {
 				
 			}
 		});
+		
+		addKeyListener(new KeyAdapter() {
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				
+				switch(e.getKeyCode()) {
+					case VK_SPACE:
+						if(testTank.isAbleToShoot()) {
+							testMissileOne = testTank.shoot();
+						}
+						break;
+						
+					case VK_DOWN:
+					case VK_UP:
+						testTank.stopTank();
+						break;
+					
+					case VK_LEFT:
+					case VK_RIGHT: 
+						testTank.stopTurningTank();
+						break;
+					
+					case VK_W: 
+					case VK_E: 
+						testTank.stopTurningCannon();
+						break;
+				}
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+			
+				switch (e.getKeyCode()) {
+					case VK_LEFT: 
+						testTank.turnTankLeft();
+						break;
+					case VK_RIGHT: 
+						testTank.turnTankRight();
+						break;
+						
+					case VK_UP:
+						testTank.accelerateTank();
+						break;
+					case VK_DOWN: 
+						testTank.decelerateTank();
+						break;
+						
+					case VK_W: 
+						testTank.turnCannonLeft();
+						break;
+					case VK_E:
+						testTank.turnCannonRight();
+						break;
+					}
+			}
+		});
 	}
 	
 	private void createGameObjects() {
@@ -84,10 +144,6 @@ public class GamePanel extends JPanel {
 	
 	private void initPlayersTank() {
 		testTank = new Tank(new Coordinate(360, 260), 70, 45, Math.toRadians(270), 0);
-		testTank.accelerateTank();
-		testTank.turnTankLeft();
-		testTank.turnCannonRight();
-		testMissileOne = testTank.shoot();
 	}
 	
 	/**
@@ -137,7 +193,8 @@ public class GamePanel extends JPanel {
 		
 		testTank.makeMove();
 		if (testTank.touches(testMissileTwo)) endGame();
-		if (testTank.isAbleToShoot()) testMissileOne = testTank.shoot();
+		
+		if(testMissileTwo.getRange() < 1) testMissileTwo = new Missile(new Coordinate(200, 609), 9, Math.toRadians(-45), 5);
 		
 		repaint();
 	}
