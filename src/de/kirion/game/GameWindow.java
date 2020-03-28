@@ -39,7 +39,7 @@ public class GameWindow extends JFrame{
     }
     
     /**
-     * Window Listener is registered
+     * registers a WindowListener
      */
     private void registerWindowListener() {
     	
