@@ -30,6 +30,8 @@ public class GamePanel extends JPanel {
 	
 	private Tank testTank;
 	
+	private EnemyTank testEnemyTank;
+	
 	public static final String IMAGE_DIR = "images/";
 	
 	private final Dimension prefSize = new Dimension(1180, 780);
@@ -140,6 +142,8 @@ public class GamePanel extends JPanel {
 	private void createGameObjects() {
 		testMissileOne = new Missile(new Coordinate(200, 100), 9, Math.toRadians(45), 5);
 		testMissileTwo = new Missile(new Coordinate(200, 609), 9, Math.toRadians(-45), 5);
+		
+		testEnemyTank = new EnemyTank(new Coordinate(40, 600), 80, 50, Math.toRadians(-20), 0, testTank);
 	}
 	
 	private void initPlayersTank() {
@@ -194,7 +198,10 @@ public class GamePanel extends JPanel {
 		testTank.makeMove();
 		if (testTank.touches(testMissileTwo)) endGame();
 		
-		if(testMissileTwo.getRange() < 1) testMissileTwo = new Missile(new Coordinate(200, 609), 9, Math.toRadians(-45), 5);
+		testEnemyTank.setPlayersTank(testTank);
+		testEnemyTank.makeMove();
+		if (testEnemyTank.isTargetLocked() && testEnemyTank.isAbleToShoot()) testMissileTwo = testEnemyTank.shoot();
+		if (testEnemyTank.touches(testMissileOne)) endGame();
 		
 		repaint();
 	}
@@ -220,6 +227,8 @@ public class GamePanel extends JPanel {
 		}
 		
 		testTank.paintMe(g);
+		
+		testEnemyTank.paintMe(g);
 		
 		testMissileOne.paintMe(g);
 		testMissileTwo.paintMe(g);
