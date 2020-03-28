@@ -55,6 +55,11 @@ public class GamePanel extends JPanel {
 		startGame();
 	}
 	
+	
+	public Tank getPlayersTank() {
+		return playersTank;
+	}
+	
 	public boolean isGameOver() {
 		return gameOver;
 	}

@@ -19,16 +19,18 @@ import javax.swing.JMenuItem;
  */
 public class GameWindow extends JFrame{
 	
-	private final GamePanel panzerGamePanel;
+	private final GamePanel tankGamePanel;
+	private final ChooseTankColorDialog chooseTankColorDialog;
      
     public GameWindow() {       
          
-        this.panzerGamePanel = new GamePanel();
+        this.tankGamePanel = new GamePanel();
+        chooseTankColorDialog = new ChooseTankColorDialog(this, tankGamePanel);
                  
         registerWindowListener();
         createMenu();
         
-        add(panzerGamePanel);
+        add(tankGamePanel);
         pack();
          
         setTitle("PanzerHQ");
@@ -53,13 +55,13 @@ public class GameWindow extends JFrame{
     		@Override
     		public void windowDeactivated(WindowEvent e) {
     			
-    			panzerGamePanel.pauseGame();
+    			tankGamePanel.pauseGame();
     		}
     		
     		@Override
     		public void windowActivated(WindowEvent e) {
 
-    			panzerGamePanel.continueGame();
+    			tankGamePanel.continueGame();
     		}
 		});
     }
@@ -117,7 +119,7 @@ public class GameWindow extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				panzerGamePanel.pauseGame();
+				tankGamePanel.pauseGame();
 			}
 		});
     	
@@ -128,7 +130,7 @@ public class GameWindow extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				panzerGamePanel.continueGame();
+				tankGamePanel.continueGame();
 			}
 		});
     	
@@ -141,7 +143,7 @@ public class GameWindow extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				panzerGamePanel.restartGame();
+				tankGamePanel.restartGame();
 			}
 		});
     }
@@ -153,6 +155,21 @@ public class GameWindow extends JFrame{
      */
     private void addPrefMenuItems(JMenu prefMenu) {
     	
+    	JMenuItem changeColorItem = new JMenuItem("Change Tank's Colors...");
+    	prefMenu.add(changeColorItem);
+    	
+    	changeColorItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				tankGamePanel.pauseGame();
+				chooseTankColorDialog.pack();
+				chooseTankColorDialog.setLocation(300, 200);
+				chooseTankColorDialog.setVisible(true);
+			}
+		});
+    	
     	JMenu submenu = new JMenu("Choose Background");
     	prefMenu.add(submenu);
     	
@@ -163,7 +180,7 @@ public class GameWindow extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				panzerGamePanel.setBackgroundImage(0);
+				tankGamePanel.setBackgroundImage(0);
 				repaint();
 			}
 		});
@@ -175,7 +192,7 @@ public class GameWindow extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				panzerGamePanel.setBackgroundImage(1);
+				tankGamePanel.setBackgroundImage(1);
 				repaint();
 			}
 		});
@@ -187,7 +204,7 @@ public class GameWindow extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				panzerGamePanel.setBackgroundImage(2);
+				tankGamePanel.setBackgroundImage(2);
 				repaint();
 			}
 		});

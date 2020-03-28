@@ -7,6 +7,11 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.RoundRectangle2D;
 
+/**
+ * 
+ * @author Kirion1st
+ *
+ */
 public class Tank extends GameObject {
 	
 	public static final double TURNING_VELOCITY = 0.03;

@@ -2,6 +2,11 @@ package de.kirion.game;
 
 import java.awt.Color;
 
+/**
+ * 
+ * @author Kirion1st
+ *
+ */
 public class EnemyTank extends Tank {
 	
 	private Tank playersTank;
